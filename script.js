@@ -12,6 +12,12 @@ const tracks = [
         audio: "audio/12.mp3"
     },
     {
+        title: "Я звезда",
+        artist: "Артур Пирожков",
+        cover: "img/4.webp",
+        audio: "audio/16.mp3"
+    },
+    {
         title: "Чика",
         artist: "Артур Пирожков",
         cover: "img/3.webp",
