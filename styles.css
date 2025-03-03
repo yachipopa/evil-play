@@ -1,0 +1,168 @@
+:root {
+    --primary-color: #b95b1d;
+    --background-color: #121212;
+    --sidebar-color: #000;
+    --text-color: #fff;
+    --text-secondary: #b3b3b3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100vh;
+}
+
+.main-content {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.track-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.track-card {
+    background-color: #282828;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.track-card:hover {
+    transform: scale(1.05);
+}
+
+.track-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.track-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.track-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.audio-player {
+    grid-column: 1 / -1;
+    background-color: #181818;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.player-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.player-controls button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.player-controls button:hover {
+    opacity: 0.7;
+}
+
+.track-info {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#progress {
+    width: 100%;
+    cursor: pointer;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#volume-slider {
+    width: 100px;
+    cursor: pointer;
+}
+
+#mute {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+audio {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .track-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .audio-player {
+        flex-direction: column;
+    }
+}
+
+.tab-content {
+    display: none; /* Скрываем все вкладки по умолчанию */
+}
+
+.tab-content.active {
+    display: block; /* Показываем активную вкладку */
+}
+
+.tab-button.active {
+    background-color: var(--primary-color); /* Стиль для активной кнопки */
+}
+
+button {
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+}
+
+.tab-button {
+    background-color: #4e270d;
+}
+
+#create-playlist {
+    background-color:  #b95b1d;
+}
