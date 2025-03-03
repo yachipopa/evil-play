@@ -4,6 +4,7 @@
     --sidebar-color: #000;
     --text-color: #fff;
     --text-secondary: #848484;
+    --player-controls-color: #e6e6e6;
 }
 
 * {
@@ -83,7 +84,7 @@ body {
 .player-controls button {
     background: none;
     border: none;
-    color: var(--text-color);
+    color: var(--player-controls-color);
     font-size: 20px;
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -106,6 +107,7 @@ body {
 #progress {
     width: 100%;
     cursor: pointer;
+    accent-color: var(--player-controls-color);
 }
 
 .volume-control {
@@ -117,12 +119,13 @@ body {
 #volume-slider {
     width: 100px;
     cursor: pointer;
+    accent-color: var(--player-controls-color);
 }
 
 #mute {
     background: none;
     border: none;
-    color: var(--text-color);
+    color: var(--player-controls-color);
     font-size: 20px;
     cursor: pointer;
 }
@@ -142,15 +145,15 @@ audio {
 }
 
 .tab-content {
-    display: none; /* Скрываем все вкладки по умолчанию */
+    display: none;
 }
 
 .tab-content.active {
-    display: block; /* Показываем активную вкладку */
+    display: block;
 }
 
 .tab-button.active {
-    background-color: var(--primary-color); /* Стиль для активной кнопки */
+    background-color: var(--primary-color);
 }
 
 button {
