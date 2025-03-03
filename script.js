@@ -14,7 +14,7 @@ const tracks = [
     {
         title: "Я звезда",
         artist: "Артур Пирожков",
-        cover: "img/4.webp",
+        cover: "img/6.webp",
         audio: "audio/16.mp3"
     },
     {
