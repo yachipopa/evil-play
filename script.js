@@ -35,6 +35,108 @@ const tracks = [
         cover: "img/5.webp",
         audio: "audio/15.mp3"
     },
+    {
+        title: "БМВ Х",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- БМВ Х.mp3"
+    },
+    {
+        title: "Вижу тень",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Вижу тень .mp3"
+    },
+    {
+        title: "Латиночка первая",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Латиночка первая.mp3"
+    },
+    {
+        title: "Мне нужна сила",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Мне нужна сила.mp3"
+    },
+    {
+        title: "На грани перехода",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- На грани перехода .mp3"
+    },
+    {
+        title: "На квадрате стою ровно",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- На квадрате стою ровно .mp3"
+    },
+    {
+        title: "Привет номер один",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Привет номер один .mp3"
+    },
+    {
+        title: "Свег (Swag)",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Свег (Swag) .mp3"
+    },
+    {
+        title: "Я не понимаю",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Я не понимаю .mp3"
+    },
+    {
+        title: "Галактические движухи",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Галактические движухи .mp3"
+    },
+    {
+        title: "Делай деньги",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Делай деньги .mp3"
+    },
+    {
+        title: "Достоинство и Верность",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Достоинство и Верность .mp3"
+    },
+    {
+        title: "Называйте его ло",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Называйте его ло. .mp3"
+    },
+    {
+        title: "Север из снов",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Север из снов .mp3"
+    },
+    {
+        title: "Тачки",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Тачки .mp3"
+    },
+    {
+        title: "Лето в веснушках",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan_Kravchenko_Лето_в_веснушках_ВТОРАЯ_версия_.mp3"
+    },
+    {
+        title: "Моя философия жизни",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan_Kravchenko_Моя_философия_жизни_часть_первая.mp3"
+    }
 ];
 
 const trackGrid = document.getElementById("track-grid");
@@ -52,15 +154,66 @@ let currentTrackIndex = 0;
 let playlists = JSON.parse(localStorage.getItem("playlists")) || [];
 const createPlaylistButton = document.getElementById("create-playlist");
 
-// Загрузка треков на страницу
+// Группировка треков по исполнителям
+function groupTracksByArtist() {
+    const artists = {};
+    tracks.forEach(track => {
+        if (!artists[track.artist]) {
+            artists[track.artist] = [];
+        }
+        artists[track.artist].push(track);
+    });
+    return artists;
+}
+
+// Загрузка треков на страницу с группировкой по исполнителям
 function loadTracks() {
-    trackGrid.innerHTML = tracks.map(track => `
-        <div class="track-card" data-audio="${track.audio}">
-            <img src="${track.cover}" alt="${track.title}">
-            <h3>${track.title}</h3>
-            <p>${track.artist}</p>
-        </div>
-    `).join("");
+    const artists = groupTracksByArtist();
+    trackGrid.innerHTML = '';
+    
+    for (const artist in artists) {
+        const artistSection = document.createElement('div');
+        artistSection.className = 'artist-section';
+        
+        const artistTitle = document.createElement('h2');
+        artistTitle.textContent = artist;
+        artistSection.appendChild(artistTitle);
+        
+        const tracksContainer = document.createElement('div');
+        tracksContainer.className = 'artist-tracks';
+        
+        const scrollLeft = document.createElement('button');
+        scrollLeft.className = 'scroll-btn left';
+        scrollLeft.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        scrollLeft.addEventListener('click', () => {
+            tracksContainer.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        
+        const scrollRight = document.createElement('button');
+        scrollRight.className = 'scroll-btn right';
+        scrollRight.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        scrollRight.addEventListener('click', () => {
+            tracksContainer.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+        
+        const tracksGrid = document.createElement('div');
+        tracksGrid.className = 'tracks-grid';
+        
+        artists[artist].forEach(track => {
+            tracksGrid.innerHTML += `
+                <div class="track-card" data-audio="${track.audio}">
+                    <img src="${track.cover}" alt="${track.title}">
+                    <h3>${track.title}</h3>
+                </div>
+            `;
+        });
+        
+        tracksContainer.appendChild(scrollLeft);
+        tracksContainer.appendChild(tracksGrid);
+        tracksContainer.appendChild(scrollRight);
+        artistSection.appendChild(tracksContainer);
+        trackGrid.appendChild(artistSection);
+    }
 }
 
 // Воспроизведение трека
@@ -69,10 +222,14 @@ function playTrack(audioSrc, title) {
     audioPlayer.play();
     currentTrack.textContent = title;
     playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+    currentTrackIndex = tracks.findIndex(track => track.audio === audioSrc);
 }
 
+// Остальной код остается без изменений...
+// (все обработчики событий и функции управления плеером остаются такими же)
+
 // Обработчик клика на трек
-trackGrid.addEventListener("click", (e) => {
+document.addEventListener("click", (e) => {
     const trackCard = e.target.closest(".track-card");
     if (trackCard) {
         const audioSrc = trackCard.getAttribute("data-audio");
