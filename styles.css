@@ -30,10 +30,60 @@ body {
     overflow-y: auto;
 }
 
-.track-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+.artist-section {
+    margin-bottom: 30px;
+}
+
+.artist-section h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.artist-tracks {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.tracks-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
     gap: 20px;
+    padding: 10px 0;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.tracks-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    transition: background 0.3s;
+}
+
+.scroll-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.scroll-btn.left {
+    margin-right: 10px;
+}
+
+.scroll-btn.right {
+    margin-left: 10px;
 }
 
 .track-card {
@@ -43,6 +93,7 @@ body {
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s;
+    flex: 0 0 180px;
 }
 
 .track-card:hover {
@@ -58,6 +109,9 @@ body {
 .track-card h3 {
     font-size: 16px;
     margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .track-card p {
@@ -135,8 +189,8 @@ audio {
 }
 
 @media (max-width: 600px) {
-    .track-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    .track-card {
+        flex: 0 0 150px;
     }
 
     .audio-player {
