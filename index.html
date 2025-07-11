@@ -21,16 +21,12 @@
                     <button id="create-playlist" class="primary-button">Создать плейлист</button>
                 </div>
                 <h2>Моя музыка</h2>
-                <div class="track-grid" id="track-grid">
-                    <!-- Треки будут загружены через JS -->
-                </div>
+                <div class="track-grid" id="track-grid"></div>
             </section>
         
             <section class="tab-content" id="playlists">
                 <h2>Плейлисты</h2>
-                <div class="playlist-grid" id="playlist-grid">
-                    <!-- Плейлисты будут загружены через JS -->
-                </div>
+                <div class="playlist-grid" id="playlist-grid"></div>
             </section>
         </main>
 
@@ -50,10 +46,7 @@
                 <button id="mute" class="control-button" aria-label="Отключить звук"><i class="fas fa-volume-up"></i></button>
                 <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="1">
             </div>
-            <audio id="audio" controls>
-                <source src="" type="audio/mpeg">
-                Ваш браузер не поддерживает аудиоэлемент.
-            </audio>
+            <audio id="audio"></audio>
         </footer>
     </div>
 
