@@ -1,350 +1,354 @@
-:root {
-    --primary-color: #fed42b;
-    --primary-dark: #e6c126;
-    --background-color: #121212;
-    --card-color: #282828;
-    --player-bg: #181818;
-    --text-color: #fff;
-    --text-secondary: #b3b3b3;
-    --scroll-btn-bg: rgba(30, 30, 30, 0.7);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    height: 100vh;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-/* Навигационные вкладки */
-.tabs {
-    display: flex;
-    padding: 0 20px;
-    background-color: var(--background-color);
-    border-bottom: 1px solid #333;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.tab-button {
-    padding: 15px 20px;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-}
-
-.tab-button.active {
-    color: var(--text-color);
-    font-weight: 600;
-}
-
-.tab-button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--primary-color);
-}
-
-/* Основное содержимое */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Кнопки */
-.primary-button {
-    background-color: var(--primary-color);
-    color: #000;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 20px;
-}
-
-.primary-button:hover {
-    background-color: var(--primary-dark);
-}
-
-.control-button {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    font-size: 18px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.3s;
-}
-
-.control-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.play-button {
-    background-color: var(--primary-color);
-    color: #000;
-}
-
-.play-button:hover {
-    background-color: var(--primary-dark);
-}
-
-/* Секции с треками */
-.artist-section {
-    margin-bottom: 30px;
-}
-
-.artist-section h2 {
-    margin-bottom: 15px;
-    font-size: 24px;
-    padding-left: 10px;
-}
-
-.artist-tracks {
-    position: relative;
-    width: 100%;
-}
-
-.scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: var(--scroll-btn-bg);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s, background 0.3s;
-}
-
-.scroll-btn.left {
-    left: 0;
-}
-
-.scroll-btn.right {
-    right: 0;
-}
-
-.artist-tracks:hover .scroll-btn {
-    opacity: 1;
-}
-
-.scroll-btn:hover {
-    background-color: var(--primary-color);
-    color: #000;
-}
-
-.tracks-grid {
-    display: flex;
-    gap: 15px;
-    padding: 5px 10px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
-}
-
-.tracks-grid::-webkit-scrollbar {
-    display: none;
-}
-
-/* Карточки треков */
-.track-card {
-    flex: 0 0 160px;
-    background-color: var(--card-color);
-    border-radius: 8px;
-    padding: 15px;
-    cursor: pointer;
-    transition: transform 0.3s, background 0.3s;
-}
-
-.track-card:hover {
-    transform: translateY(-5px);
-    background-color: #383838;
-}
-
-.track-card img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 12px;
-}
-
-.track-card h3 {
-    font-size: 14px;
-    margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Аудиоплеер */
-.audio-player {
-    background-color: var(--player-bg);
-    padding: 15px 20px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 15px;
-    border-top: 1px solid #333;
-    position: sticky;
-    bottom: 0;
-}
-
-.player-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    order: 1;
-}
-
-.track-info {
-    flex: 1;
-    min-width: 150px;
-    text-align: center;
-    font-size: 14px;
-    order: 2;
-}
-
-.progress-container {
-    flex: 1 0 100%;
-    padding: 0 10px;
-    order: 3;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    accent-color: var(--primary-color);
-    cursor: pointer;
-}
-
-.volume-control {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 150px;
-    order: 4;
-}
-
-.volume-slider {
-    width: 100px;
-    accent-color: var(--primary-color);
-    cursor: pointer;
-}
-
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .tabs {
-        padding: 0 10px;
+const tracks = [
+    {
+        title: "Wai wha",
+        artist: "alice4r4r",
+        cover: "img/1.jpg",
+        audio: "audio/11.mp3"
+    },
+    {
+        title: "Зацепила",
+        artist: "Артур Пирожков",
+        cover: "img/2.webp",
+        audio: "audio/12.mp3"
+    },
+    {
+        title: "Я звезда",
+        artist: "Артур Пирожков",
+        cover: "img/6.webp",
+        audio: "audio/16.mp3"
+    },
+    {
+        title: "Чика",
+        artist: "Артур Пирожков",
+        cover: "img/3.webp",
+        audio: "audio/13.mp3"
+    },
+    {
+        title: "#АЛКОГОЛИЧКА",
+        artist: "Артур Пирожков",
+        cover: "img/4.webp",
+        audio: "audio/14.mp3"
+    },
+    {
+        title: "ОНА РЕШИЛА СДАТЬСЯ",
+        artist: "Артур Пирожков",
+        cover: "img/5.webp",
+        audio: "audio/15.mp3"
+    },
+    {
+        title: "БМВ Х",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- БМВ Х.mp3"
+    },
+    {
+        title: "Вижу тень",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Вижу тень .mp3"
+    },
+    {
+        title: "Латиночка первая",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Латиночка первая.mp3"
+    },
+    {
+        title: "Мне нужна сила",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Мне нужна сила.mp3"
+    },
+    {
+        title: "На грани перехода",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- На грани перехода .mp3"
+    },
+    {
+        title: "На квадрате стою ровно",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- На квадрате стою ровно .mp3"
+    },
+    {
+        title: "Привет номер один",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Привет номер один .mp3"
+    },
+    {
+        title: "Свег (Swag)",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Свег (Swag) .mp3"
+    },
+    {
+        title: "Я не понимаю",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko- Я не понимаю .mp3"
+    },
+    {
+        title: "Галактические движухи",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Галактические движухи .mp3"
+    },
+    {
+        title: "Делай деньги",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Делай деньги .mp3"
+    },
+    {
+        title: "Достоинство и Верность",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Достоинство и Верность .mp3"
+    },
+    {
+        title: "Называйте его ло",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Называйте его ло. .mp3"
+    },
+    {
+        title: "Север из снов",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Север из снов .mp3"
+    },
+    {
+        title: "Тачки",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan Kravchenko-Тачки .mp3"
+    },
+    {
+        title: "Лето в веснушках",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan_Kravchenko_Лето_в_веснушках_ВТОРАЯ_версия_.mp3"
+    },
+    {
+        title: "Моя философия жизни",
+        artist: "Dan Kravchenko",
+        cover: "img/sexy.jpg",
+        audio: "audio/Dan_Kravchenko_Моя_философия_жизни_часть_первая.mp3"
     }
+];
+
+const trackGrid = document.getElementById("track-grid");
+const audioPlayer = document.getElementById("audio");
+const playPauseButton = document.getElementById("play-pause");
+const currentTrack = document.getElementById("current-track");
+const volumeSlider = document.getElementById("volume-slider");
+const muteButton = document.getElementById("mute");
+const progressBar = document.getElementById("progress");
+const playlistGrid = document.getElementById("playlist-grid");
+
+let currentTrackIndex = 0;
+let playlists = JSON.parse(localStorage.getItem("playlists")) || [];
+
+// Группировка треков по исполнителям
+function groupTracksByArtist() {
+    const artists = {};
+    tracks.forEach(track => {
+        if (!artists[track.artist]) {
+            artists[track.artist] = [];
+        }
+        artists[track.artist].push(track);
+    });
+    return artists;
+}
+
+// Загрузка треков на страницу
+function loadTracks() {
+    const artists = groupTracksByArtist();
+    trackGrid.innerHTML = '';
     
-    .tab-button {
-        padding: 12px 15px;
-        font-size: 14px;
-    }
-    
-    .main-content {
-        padding: 15px 10px;
-    }
-    
-    .track-card {
-        flex: 0 0 120px;
-        padding: 10px;
-    }
-    
-    .track-card h3 {
-        font-size: 12px;
-    }
-    
-    .audio-player {
-        padding: 10px 15px;
-        gap: 10px;
-    }
-    
-    .player-controls {
-        order: 2;
-    }
-    
-    .track-info {
-        order: 1;
-        flex: 1 0 100%;
-        margin-bottom: 5px;
-    }
-    
-    .progress-container {
-        order: 3;
-    }
-    
-    .volume-control {
-        order: 4;
-        flex: 1;
-        justify-content: flex-end;
-    }
-    
-    .volume-slider {
-        width: 80px;
+    for (const artist in artists) {
+        const artistSection = document.createElement('div');
+        artistSection.className = 'artist-section';
+        
+        const artistTitle = document.createElement('h2');
+        artistTitle.textContent = artist;
+        artistSection.appendChild(artistTitle);
+        
+        const tracksContainer = document.createElement('div');
+        tracksContainer.className = 'artist-tracks';
+        
+        const tracksGrid = document.createElement('div');
+        tracksGrid.className = 'tracks-grid';
+        
+        artists[artist].forEach(track => {
+            const trackCard = document.createElement('div');
+            trackCard.className = 'track-card';
+            trackCard.setAttribute('data-audio', track.audio);
+            trackCard.innerHTML = `
+                <img src="${track.cover}" alt="${track.title}">
+                <h3>${track.title}</h3>
+            `;
+            trackCard.addEventListener('click', () => playTrack(track.audio, track.title));
+            tracksGrid.appendChild(trackCard);
+        });
+        
+        const scrollLeft = document.createElement('button');
+        scrollLeft.className = 'scroll-btn left';
+        scrollLeft.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        scrollLeft.addEventListener('click', () => {
+            tracksGrid.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        
+        const scrollRight = document.createElement('button');
+        scrollRight.className = 'scroll-btn right';
+        scrollRight.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        scrollRight.addEventListener('click', () => {
+            tracksGrid.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+        
+        tracksContainer.appendChild(scrollLeft);
+        tracksContainer.appendChild(tracksGrid);
+        tracksContainer.appendChild(scrollRight);
+        artistSection.appendChild(tracksContainer);
+        trackGrid.appendChild(artistSection);
     }
 }
 
-@media (max-width: 480px) {
-    .artist-section h2 {
-        font-size: 20px;
-    }
-    
-    .track-card {
-        flex: 0 0 100px;
-    }
-    
-    .scroll-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-    }
+// Воспроизведение трека
+function playTrack(audioSrc, title) {
+    audioPlayer.src = audioSrc;
+    audioPlayer.play()
+        .then(() => {
+            currentTrack.textContent = title;
+            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+            currentTrackIndex = tracks.findIndex(track => track.audio === audioSrc);
+        })
+        .catch(error => {
+            console.error("Ошибка воспроизведения:", error);
+        });
 }
+
+// Управление воспроизведением
+playPauseButton.addEventListener("click", () => {
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+    } else {
+        audioPlayer.pause();
+        playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+    }
+});
+
+// Управление громкостью
+volumeSlider.addEventListener("input", () => {
+    audioPlayer.volume = volumeSlider.value;
+    localStorage.setItem("volume", volumeSlider.value);
+    muteButton.innerHTML = audioPlayer.volume === 0 
+        ? '<i class="fas fa-volume-mute"></i>' 
+        : '<i class="fas fa-volume-up"></i>';
+});
+
+// Кнопка mute/unmute
+muteButton.addEventListener("click", () => {
+    if (audioPlayer.volume > 0) {
+        audioPlayer.volume = 0;
+        volumeSlider.value = 0;
+        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    } else {
+        audioPlayer.volume = 1;
+        volumeSlider.value = 1;
+        muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+    }
+});
+
+// Прогресс трека
+audioPlayer.addEventListener("timeupdate", () => {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.value = progress || 0;
+});
+
+progressBar.addEventListener("input", () => {
+    const time = (progressBar.value / 100) * audioPlayer.duration;
+    audioPlayer.currentTime = time;
+});
+
+// Переключение треков
+function playNextTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    const track = tracks[currentTrackIndex];
+    playTrack(track.audio, track.title);
+}
+
+function playPrevTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+    const track = tracks[currentTrackIndex];
+    playTrack(track.audio, track.title);
+}
+
+document.getElementById("next").addEventListener("click", playNextTrack);
+document.getElementById("prev").addEventListener("click", playPrevTrack);
+
+// Плейлисты
+document.getElementById("create-playlist").addEventListener("click", () => {
+    const playlistName = prompt("Введите название плейлиста:");
+    if (playlistName) {
+        playlists.push({ name: playlistName, tracks: [] });
+        updatePlaylists();
+        savePlaylists();
+    }
+});
+
+function updatePlaylists() {
+    playlistGrid.innerHTML = playlists.map((playlist, index) => `
+        <div class="playlist-card">
+            <h3>${playlist.name}</h3>
+            <button onclick="deletePlaylist(${index})" class="primary-button">Удалить</button>
+            <div class="playlist-tracks">
+                ${playlist.tracks.map(trackIndex => `
+                    <div class="track-card" data-audio="${tracks[trackIndex].audio}">
+                        <img src="${tracks[trackIndex].cover}" alt="${tracks[trackIndex].title}">
+                        <h3>${tracks[trackIndex].title}</h3>
+                    </div>
+                `).join("")}
+            </div>
+        </div>
+    `).join("");
+}
+
+function deletePlaylist(index) {
+    playlists.splice(index, 1);
+    updatePlaylists();
+    savePlaylists();
+}
+
+function savePlaylists() {
+    localStorage.setItem("playlists", JSON.stringify(playlists));
+}
+
+// Переключение вкладок
+document.querySelectorAll(".tab-button").forEach(button => {
+    button.addEventListener("click", () => {
+        document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+        button.classList.add("active");
+        document.getElementById(button.getAttribute("data-tab")).classList.add("active");
+    });
+});
+
+// Загрузка громкости
+const savedVolume = localStorage.getItem("volume");
+if (savedVolume) {
+    audioPlayer.volume = parseFloat(savedVolume);
+    volumeSlider.value = savedVolume;
+}
+
+// Автопереключение треков
+audioPlayer.addEventListener("ended", playNextTrack);
+
+// Инициализация
+window.onload = () => {
+    loadTracks();
+    updatePlaylists();
+};
