@@ -166,7 +166,7 @@ function groupTracksByArtist() {
     return artists;
 }
 
-// Загрузка треков на страницу с группировкой по исполнителям
+
 function loadTracks() {
     const artists = groupTracksByArtist();
     trackGrid.innerHTML = '';
@@ -185,16 +185,10 @@ function loadTracks() {
         const scrollLeft = document.createElement('button');
         scrollLeft.className = 'scroll-btn left';
         scrollLeft.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        scrollLeft.addEventListener('click', () => {
-            tracksContainer.scrollBy({ left: -200, behavior: 'smooth' });
-        });
         
         const scrollRight = document.createElement('button');
         scrollRight.className = 'scroll-btn right';
         scrollRight.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        scrollRight.addEventListener('click', () => {
-            tracksContainer.scrollBy({ left: 200, behavior: 'smooth' });
-        });
         
         const tracksGrid = document.createElement('div');
         tracksGrid.className = 'tracks-grid';
@@ -206,6 +200,15 @@ function loadTracks() {
                     <h3>${track.title}</h3>
                 </div>
             `;
+        });
+        
+        // Добавляем обработчики после создания элементов
+        scrollLeft.addEventListener('click', () => {
+            tracksGrid.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        
+        scrollRight.addEventListener('click', () => {
+            tracksGrid.scrollBy({ left: 200, behavior: 'smooth' });
         });
         
         tracksContainer.appendChild(scrollLeft);
