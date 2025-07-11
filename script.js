@@ -149,10 +149,7 @@ const progressBar = document.getElementById("progress");
 const playlistGrid = document.getElementById("playlist-grid");
 
 let currentTrackIndex = 0;
-
-// Плейлисты
 let playlists = JSON.parse(localStorage.getItem("playlists")) || [];
-const createPlaylistButton = document.getElementById("create-playlist");
 
 // Группировка треков по исполнителям
 function groupTracksByArtist() {
@@ -166,7 +163,7 @@ function groupTracksByArtist() {
     return artists;
 }
 
-
+// Загрузка треков на страницу
 function loadTracks() {
     const artists = groupTracksByArtist();
     trackGrid.innerHTML = '';
@@ -182,33 +179,33 @@ function loadTracks() {
         const tracksContainer = document.createElement('div');
         tracksContainer.className = 'artist-tracks';
         
-        const scrollLeft = document.createElement('button');
-        scrollLeft.className = 'scroll-btn left';
-        scrollLeft.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        
-        const scrollRight = document.createElement('button');
-        scrollRight.className = 'scroll-btn right';
-        scrollRight.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        
         const tracksGrid = document.createElement('div');
         tracksGrid.className = 'tracks-grid';
         
         artists[artist].forEach(track => {
-            tracksGrid.innerHTML += `
-                <div class="track-card" data-audio="${track.audio}">
-                    <img src="${track.cover}" alt="${track.title}">
-                    <h3>${track.title}</h3>
-                </div>
+            const trackCard = document.createElement('div');
+            trackCard.className = 'track-card';
+            trackCard.setAttribute('data-audio', track.audio);
+            trackCard.innerHTML = `
+                <img src="${track.cover}" alt="${track.title}">
+                <h3>${track.title}</h3>
             `;
+            trackCard.addEventListener('click', () => playTrack(track.audio, track.title));
+            tracksGrid.appendChild(trackCard);
         });
         
-        // Добавляем обработчики после создания элементов
+        const scrollLeft = document.createElement('button');
+        scrollLeft.className = 'scroll-btn left';
+        scrollLeft.innerHTML = '<i class="fas fa-chevron-left"></i>';
         scrollLeft.addEventListener('click', () => {
-            tracksGrid.scrollBy({ left: -200, behavior: 'smooth' });
+            tracksGrid.scrollBy({ left: -300, behavior: 'smooth' });
         });
         
+        const scrollRight = document.createElement('button');
+        scrollRight.className = 'scroll-btn right';
+        scrollRight.innerHTML = '<i class="fas fa-chevron-right"></i>';
         scrollRight.addEventListener('click', () => {
-            tracksGrid.scrollBy({ left: 200, behavior: 'smooth' });
+            tracksGrid.scrollBy({ left: 300, behavior: 'smooth' });
         });
         
         tracksContainer.appendChild(scrollLeft);
@@ -222,24 +219,16 @@ function loadTracks() {
 // Воспроизведение трека
 function playTrack(audioSrc, title) {
     audioPlayer.src = audioSrc;
-    audioPlayer.play();
-    currentTrack.textContent = title;
-    playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
-    currentTrackIndex = tracks.findIndex(track => track.audio === audioSrc);
+    audioPlayer.play()
+        .then(() => {
+            currentTrack.textContent = title;
+            playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+            currentTrackIndex = tracks.findIndex(track => track.audio === audioSrc);
+        })
+        .catch(error => {
+            console.error("Ошибка воспроизведения:", error);
+        });
 }
-
-// Остальной код остается без изменений...
-// (все обработчики событий и функции управления плеером остаются такими же)
-
-// Обработчик клика на трек
-document.addEventListener("click", (e) => {
-    const trackCard = e.target.closest(".track-card");
-    if (trackCard) {
-        const audioSrc = trackCard.getAttribute("data-audio");
-        const title = trackCard.querySelector("h3").textContent;
-        playTrack(audioSrc, title);
-    }
-});
 
 // Управление воспроизведением
 playPauseButton.addEventListener("click", () => {
@@ -256,11 +245,9 @@ playPauseButton.addEventListener("click", () => {
 volumeSlider.addEventListener("input", () => {
     audioPlayer.volume = volumeSlider.value;
     localStorage.setItem("volume", volumeSlider.value);
-    if (audioPlayer.volume === 0) {
-        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
-    } else {
-        muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
-    }
+    muteButton.innerHTML = audioPlayer.volume === 0 
+        ? '<i class="fas fa-volume-mute"></i>' 
+        : '<i class="fas fa-volume-up"></i>';
 });
 
 // Кнопка mute/unmute
@@ -279,7 +266,7 @@ muteButton.addEventListener("click", () => {
 // Прогресс трека
 audioPlayer.addEventListener("timeupdate", () => {
     const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-    progressBar.value = progress;
+    progressBar.value = progress || 0;
 });
 
 progressBar.addEventListener("input", () => {
@@ -287,26 +274,24 @@ progressBar.addEventListener("input", () => {
     audioPlayer.currentTime = time;
 });
 
-// Переключение на следующий трек
+// Переключение треков
 function playNextTrack() {
     currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
     const track = tracks[currentTrackIndex];
     playTrack(track.audio, track.title);
 }
 
-// Переключение на предыдущий трек
 function playPrevTrack() {
     currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
     const track = tracks[currentTrackIndex];
     playTrack(track.audio, track.title);
 }
 
-// Обработчики для кнопок "следующий" и "предыдущий"
 document.getElementById("next").addEventListener("click", playNextTrack);
 document.getElementById("prev").addEventListener("click", playPrevTrack);
 
-// Создание плейлиста
-createPlaylistButton.addEventListener("click", () => {
+// Плейлисты
+document.getElementById("create-playlist").addEventListener("click", () => {
     const playlistName = prompt("Введите название плейлиста:");
     if (playlistName) {
         playlists.push({ name: playlistName, tracks: [] });
@@ -315,18 +300,16 @@ createPlaylistButton.addEventListener("click", () => {
     }
 });
 
-// Обновление списка плейлистов
 function updatePlaylists() {
     playlistGrid.innerHTML = playlists.map((playlist, index) => `
         <div class="playlist-card">
             <h3>${playlist.name}</h3>
-            <button onclick="deletePlaylist(${index})">Удалить</button>
+            <button onclick="deletePlaylist(${index})" class="primary-button">Удалить</button>
             <div class="playlist-tracks">
                 ${playlist.tracks.map(trackIndex => `
                     <div class="track-card" data-audio="${tracks[trackIndex].audio}">
                         <img src="${tracks[trackIndex].cover}" alt="${tracks[trackIndex].title}">
                         <h3>${tracks[trackIndex].title}</h3>
-                        <p>${tracks[trackIndex].artist}</p>
                     </div>
                 `).join("")}
             </div>
@@ -334,14 +317,12 @@ function updatePlaylists() {
     `).join("");
 }
 
-// Удаление плейлиста
 function deletePlaylist(index) {
     playlists.splice(index, 1);
     updatePlaylists();
     savePlaylists();
 }
 
-// Сохранение плейлистов в localStorage
 function savePlaylists() {
     localStorage.setItem("playlists", JSON.stringify(playlists));
 }
@@ -352,22 +333,21 @@ document.querySelectorAll(".tab-button").forEach(button => {
         document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
         document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
         button.classList.add("active");
-        const tabId = button.getAttribute("data-tab");
-        document.getElementById(tabId).classList.add("active");
+        document.getElementById(button.getAttribute("data-tab")).classList.add("active");
     });
 });
 
-// Загрузка громкости из localStorage
+// Загрузка громкости
 const savedVolume = localStorage.getItem("volume");
 if (savedVolume) {
     audioPlayer.volume = parseFloat(savedVolume);
     volumeSlider.value = savedVolume;
 }
 
-// Автоматическое воспроизведение следующего трека
+// Автопереключение треков
 audioPlayer.addEventListener("ended", playNextTrack);
 
-// Загрузка треков и плейлистов при загрузке страницы
+// Инициализация
 window.onload = () => {
     loadTracks();
     updatePlaylists();
